@@ -58,7 +58,9 @@ function createSettingsWindow(): void {
 }
 
 function createTray(): void {
-  const iconPath = join(__dirname, '../../public/crosshair.png')
+  const iconPath = app.isPackaged
+    ? join(process.resourcesPath, 'crosshair.png')
+    : join(__dirname, '../public/crosshair.png')
   const icon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 })
   tray = new Tray(icon)
 

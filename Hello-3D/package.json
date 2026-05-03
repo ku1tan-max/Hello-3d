@@ -55,7 +55,15 @@
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "Hello-3D"
+    "shortcutName": "Hello-3D",
+    "installerIcon": "public/crosshair.ico",
+    "uninstallerIcon": "public/crosshair.ico"
+  },
+  "extraResources": [
+  {
+    "from": "public/crosshair.png",
+    "to": "crosshair.png"
   }
+]
 }
 }

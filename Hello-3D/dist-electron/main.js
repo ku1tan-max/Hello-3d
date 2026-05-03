@@ -1,8 +1,8 @@
-import { app as a, globalShortcut as p, ipcMain as r, screen as b, BrowserWindow as f, nativeImage as y, Tray as _, Menu as x } from "electron";
-import { dirname as I, join as c } from "path";
-import { fileURLToPath as k } from "url";
-const v = k(import.meta.url), u = I(v);
-let o, t = null, d, i = !0, h = { x: 0, y: 0 };
+import { app as i, globalShortcut as p, ipcMain as r, screen as b, BrowserWindow as f, nativeImage as y, Tray as _, Menu as x } from "electron";
+import { dirname as k, join as c } from "path";
+import { fileURLToPath as I } from "url";
+const v = I(import.meta.url), u = k(v);
+let o, t = null, d, a = !0, h = { x: 0, y: 0 };
 function M() {
   const { width: n, height: e } = b.getPrimaryDisplay().bounds;
   o = new f({
@@ -44,15 +44,15 @@ function g() {
     t = null;
   });
 }
-function T() {
-  const n = c(u, "../../public/crosshair.png"), e = y.createFromPath(n).resize({ width: 16, height: 16 });
+function P() {
+  const n = i.isPackaged ? c(process.resourcesPath, "crosshair.png") : c(u, "../public/crosshair.png"), e = y.createFromPath(n).resize({ width: 16, height: 16 });
   d = new _(e);
   const s = () => {
-    const l = a.getLoginItemSettings().openAtLogin, w = x.buildFromTemplate([
+    const l = i.getLoginItemSettings().openAtLogin, w = x.buildFromTemplate([
       {
-        label: i ? "크로스헤어 끄기" : "크로스헤어 켜기",
+        label: a ? "크로스헤어 끄기" : "크로스헤어 켜기",
         click: () => {
-          i = !i, i ? o.show() : o.hide(), s();
+          a = !a, a ? o.show() : o.hide(), s();
         }
       },
       { label: "설정 열기", click: () => g() },
@@ -62,11 +62,11 @@ function T() {
         type: "checkbox",
         checked: l,
         click: () => {
-          a.setLoginItemSettings({ openAtLogin: !l, name: "크로스헤어 오버레이" }), s();
+          i.setLoginItemSettings({ openAtLogin: !l, name: "크로스헤어 오버레이" }), s();
         }
       },
       { type: "separator" },
-      { label: "종료", click: () => a.quit() }
+      { label: "종료", click: () => i.quit() }
     ]);
     d.setContextMenu(w);
   };
@@ -76,18 +76,18 @@ function m(n = "Alt+X", e = "Alt+S") {
   p.unregisterAll();
   try {
     p.register(n, () => {
-      i = !i, i ? o.show() : o.hide();
+      a = !a, a ? o.show() : o.hide();
     }), p.register(e, () => g());
   } catch (s) {
     console.error("단축키 등록 실패:", s);
   }
 }
-a.whenReady().then(() => {
-  M(), T(), m();
+i.whenReady().then(() => {
+  M(), P(), m();
 });
-a.on("window-all-closed", () => {
+i.on("window-all-closed", () => {
 });
-a.on("will-quit", () => p.unregisterAll());
+i.on("will-quit", () => p.unregisterAll());
 r.on("set-ignore-mouse", (n, e) => {
   o.setIgnoreMouseEvents(e, { forward: !0 });
 });
